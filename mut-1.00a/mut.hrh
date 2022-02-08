@@ -1,0 +1,28 @@
+#ifndef _MUT_HRH
+
+#define _MUT_HRH
+
+enum {
+  EMutPlay = 0x1234,
+  EMutTerminate,
+  EMutMulti,
+  EMutNextScreen,
+  EMutContinue,
+  EMutOptions,
+  EMutPause,
+  EMutAbout,
+
+  EWidgetTransp,
+
+  EOptTransparent,
+  EOptBg1,
+  EOptBg2,
+  EOptUsername,
+
+  EMultiAddServer,
+  EMultiAddClient,
+  EMultiDelHost,
+  EMultiComputer
+};
+
+#endif

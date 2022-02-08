@@ -1,0 +1,208 @@
+NAME MUT
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <e32keys.h>
+#include "mut.hrh"
+
+#ifdef _SERIES60
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <avkon.mbg>
+#endif
+
+RESOURCE RSS_SIGNATURE { signature=20030619; }	// Version Number
+RESOURCE TBUF { buf=""; }
+RESOURCE EIK_APP_INFO
+{
+  menubar = r_mut_menubar;
+  cba = R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+}
+
+RESOURCE MENU_BAR r_mut_menubar
+{
+  titles = {
+    MENU_TITLE {menu_pane = r_mut_menu;}
+  };
+}
+
+#ifdef _SERIES60
+RESOURCE MENU_PANE r_mut_menu
+{
+  items = {
+    MENU_ITEM {command = EMutPlay;        txt = "New Game";},
+    MENU_ITEM {command = EMutContinue;    txt = "Continue";},
+    MENU_ITEM {command = EMutNextScreen;  txt = "Next Screen";},
+    MENU_ITEM {command = EMutTerminate;   txt = "End Game";},
+    MENU_ITEM {command = EMutPause;       txt = "Pause";},
+    MENU_ITEM {command = EMutMulti;
+	       cascade = r_multi_menu;    txt = "Multiplayer";},
+    MENU_ITEM {command = EMutOptions;
+	       cascade = r_options_menu;  txt = "Options";},
+    MENU_ITEM {command = EMutAbout;       txt = "About";},
+    MENU_ITEM {command = EEikCmdExit;     txt = "Exit";}
+  };
+}
+
+RESOURCE MENU_PANE r_options_menu
+{
+  items = {
+    MENU_ITEM {command = EOptTransparent; txt = "Transparent stones";},
+    MENU_ITEM {command = EOptBg1;         txt = "Highscore bg image";},
+    MENU_ITEM {command = EOptBg2;         txt = "Play bg. image";},
+    MENU_ITEM {command = EOptUsername;    txt = "Set user name";}
+  };
+}
+
+RESOURCE MENU_PANE r_multi_menu
+{
+  items = {
+    MENU_ITEM {command = EMultiAddServer;   txt = "Start server";},
+    MENU_ITEM {command = EMultiAddClient;   txt = "Join server";},
+    MENU_ITEM {command = EMultiDelHost;     txt = "Terminate conn.";},
+    MENU_ITEM {command = EMultiComputer;    txt = "Computer opponents";}
+  };
+}
+
+RESOURCE DIALOG r_about
+{
+  flags = EAknDialogGenericNoteFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_EMPTY;
+  items = {
+    DLG_LINE {
+      type = EAknCtNote;
+      control = AVKON_NOTE {
+        layout = EGeneralLayout;
+        singular_label =
+          "Mut 1.0\nLicence: GPL\n© 2003 Rudolf König\nwww.koeniglich.de";
+        imagefile= "Z:\\system\\data\\avkon.mbm";
+        imageid = EMbmAvkonQgn_note_info;
+        imagemask = EMbmAvkonQgn_note_info_mask;
+      };
+    }
+  };
+}
+
+
+RESOURCE DIALOG r_dlg_transparent
+{
+  flags = EGeneralQueryFlags;
+  buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+  items = {
+    DLG_LINE {
+      type = EAknCtListQueryControl;
+      id = EListQueryControl;
+      control = AVKON_LIST_QUERY_CONTROL {
+	listtype = EAknCtSinglePopupMenuListBox;
+	heading = "Stone transparency";
+	listbox = LISTBOX {
+	  flags = EAknListBoxMenuList;
+	  array_id = r_dlg_transparent_array;
+	};
+      };
+    }
+  };
+}
+
+RESOURCE ARRAY r_dlg_transparent_array
+{
+  items = {
+    LBUF { txt = "None"; },
+    LBUF { txt = "50%";  },
+    LBUF { txt = "Maximum";  }
+  };
+}
+
+RESOURCE DIALOG r_dlg_computer
+{
+  flags = EGeneralQueryFlags;
+  buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+  items = {
+    DLG_LINE {
+      type = EAknCtListQueryControl;
+      id = EListQueryControl;
+      control = AVKON_LIST_QUERY_CONTROL {
+	listtype = EAknCtSinglePopupMenuListBox;
+	heading = "Computer opponents";
+	listbox = LISTBOX {
+	  flags = EAknListBoxMenuList;
+	  array_id = r_dlg_computer_array;
+	};
+      };
+    }
+  };
+}
+
+// Check NCOMP in play.h if changing the number of computers
+RESOURCE ARRAY r_dlg_computer_array
+{
+  items = {
+    LBUF { txt = "None"; },
+    LBUF { txt = "1";  },
+    LBUF { txt = "2";  }
+  };
+}
+
+RESOURCE DIALOG r_dlg_picture
+{
+  flags = EGeneralQueryFlags;
+  buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+  items = {
+    DLG_LINE {
+      type = EAknCtListQueryControl;
+      id = EListQueryControl;
+      control = AVKON_LIST_QUERY_CONTROL {
+	listtype = EAknCtSinglePopupMenuListBox;
+	heading = "Background image";
+	listbox = LISTBOX {
+	  flags = EAknListBoxMenuList;
+	  array_id = r_dlg_transparent_array;
+	};
+      };
+    }
+  };
+}
+
+
+RESOURCE DIALOG r_dlg_namerequester
+{
+  flags = EGeneralQueryFlags;
+  buttons = R_AVKON_SOFTKEYS_OK_CANCEL;
+  items = {
+    DLG_LINE {
+      type = EAknCtQuery;
+      id = EGeneralQuery;
+      control = AVKON_DATA_QUERY {
+	layout = EDataLayout;
+	label = "Your name:";
+	control = EDWIN {
+	  flags= EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+	  maxlength = 8;
+	  width = 8;
+	  lines = 1;
+	};
+      };
+    }
+  };
+}
+
+#else // _SERIES60
+
+RESOURCE TBUF r_about1  { buf="Mut 1.0"; }
+RESOURCE TBUF r_about2  {
+	 buf="© 2003 Rudolf König\nwww.koeniglich.de\nLicence: GPL"; }
+
+#endif
+
+
+RESOURCE TBUF r_hs_title  { buf="Highscore:"; }
+RESOURCE TBUF r_hs_name   { buf="Name"; }
+RESOURCE TBUF r_hs_lev    { buf="Lev."; }
+RESOURCE TBUF r_hs_score  { buf="Score"; }
+
+RESOURCE TBUF r_you       { buf="You"; }
+RESOURCE TBUF r_score     { buf="Sc:"; }
+RESOURCE TBUF r_level     { buf="Lv:"; }
+RESOURCE TBUF r_next      { buf="Nx:"; }
+
+RESOURCE TBUF r_last      { buf="Last score %d / %d"; }
