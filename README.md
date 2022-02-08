@@ -4,7 +4,7 @@ Original website: http://www.koeniglich.de/mut.html
 
 ## News (as of 2022-02-08):
 
-Integration into the `N-Gage SDK.` ecosystem.
+Integration into the N-Gage SDK ecosystem.
 
 ## News (as of 2005-09-29):
 
